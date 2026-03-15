@@ -248,7 +248,7 @@ This project is licensed under the MIT License.
 
 ## 👨‍💻 Author
 
-**Abhay**
+**CiviTech**
 Developer of Yojana Sathi
 AI for Communities & Public Impact Project
 
