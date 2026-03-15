@@ -1,5 +1,6 @@
+import { useState, useEffect } from "react";
 import { Scheme } from "@/data/mockData";
-import { ChevronRight, Tag, ExternalLink, X, Info, CheckCircle2 } from "lucide-react";
+import { ChevronRight, Tag, ExternalLink, X, Info, CheckCircle2, Bookmark } from "lucide-react";
 import { useApp } from "@/contexts/AppContext";
 import {
   Dialog,
@@ -10,6 +11,8 @@ import {
   DialogClose,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 interface SchemeCardProps {
   scheme: Scheme;
@@ -25,12 +28,40 @@ const categoryColors: Record<string, string> = {
 const SchemeCard = ({ scheme }: SchemeCardProps) => {
   const { language } = useApp();
   const isHi = language === "hi";
+  const [isSaved, setIsSaved] = useState(false);
+
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("savedSchemes") || "[]");
+    setIsSaved(saved.includes(scheme.id));
+  }, [scheme.id]);
 
   const categoryLabels: Record<string, string> = {
     farmer: isHi ? "🌾 किसान" : "🌾 Farmer",
     student: isHi ? "📚 छात्र" : "📚 Student",
     employment: isHi ? "💼 रोजगार" : "💼 Employment",
     general: isHi ? "🏥 सामान्य" : "🏥 General",
+  };
+
+  const handleSave = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+
+    const saved = JSON.parse(localStorage.getItem("savedSchemes") || "[]");
+    let updated;
+    
+    if (saved.includes(scheme.id)) {
+      updated = saved.filter((id: string) => id !== scheme.id);
+      setIsSaved(false);
+      toast.info(isHi ? "योजना हटा दी गई" : "Scheme removed from saved");
+    } else {
+      updated = [...saved, scheme.id];
+      setIsSaved(true);
+      toast.success(isHi ? "योजना सफलतापूर्वक सहेजी गई" : "Scheme saved successfully");
+    }
+    
+    localStorage.setItem("savedSchemes", JSON.stringify(updated));
+    // Dispatch a custom event to notify other components (like Dashboard)
+    window.dispatchEvent(new Event("savedSchemesUpdated"));
   };
 
   return (
@@ -45,9 +76,23 @@ const SchemeCard = ({ scheme }: SchemeCardProps) => {
               className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
               loading="lazy"
             />
-            <div className={`absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold text-white ${categoryColors[scheme.category]}`}>
+            <div className={`absolute top-2 left-2 px-2 py-0.5 rounded text-[10px] font-bold text-white z-10 ${categoryColors[scheme.category]}`}>
               {categoryLabels[scheme.category]}
             </div>
+            
+            <Button
+              variant="ghost"
+              size="icon"
+              className={cn(
+                "absolute top-2 right-2 z-20 w-8 h-8 rounded-full transition-all duration-300",
+                isSaved 
+                  ? "bg-primary text-primary-foreground shadow-lg" 
+                  : "bg-black/20 backdrop-blur-md text-white hover:bg-black/40"
+              )}
+              onClick={handleSave}
+            >
+              <Bookmark className={cn("w-4 h-4", isSaved ? "fill-current" : "")} />
+            </Button>
           </div>
 
           <div className="p-4">
@@ -88,7 +133,7 @@ const SchemeCard = ({ scheme }: SchemeCardProps) => {
         </div>
       </DialogTrigger>
       
-      <DialogContent className="max-w-md w-[95%] rounded-2xl p-0 overflow-hidden border-none max-h-[90vh] overflow-y-auto scrollbar-none">
+      <DialogContent className="max-w-lg w-[95%] rounded-2xl p-0 overflow-hidden border-none">
         <div className="relative h-48 w-full">
           <img
             src={scheme.image}
@@ -159,7 +204,6 @@ const SchemeCard = ({ scheme }: SchemeCardProps) => {
       </DialogContent>
     </Dialog>
   );
-
 };
 
 export default SchemeCard;

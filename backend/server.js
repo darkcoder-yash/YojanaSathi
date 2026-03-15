@@ -1,7 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const chatRoutes = require("./routes/chat");
-const authRoutes = require("./routes/auth");
+const updatesRoutes = require("./routes/updates");
+
 const { PORT } = require("./config/env");
 
 const app = express();
@@ -11,7 +12,8 @@ app.use(express.json());
 
 // Routes
 app.use("/api", chatRoutes);
-app.use("/api/auth", authRoutes);
+app.use("/api", updatesRoutes);
+
 
 app.get("/", (req, res) => {
   res.json({

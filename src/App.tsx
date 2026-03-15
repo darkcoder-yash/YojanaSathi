@@ -4,8 +4,10 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AppProvider } from "@/contexts/AppContext";
+import Landing from "./pages/Landing";
 import Welcome from "./pages/Welcome";
 import Login from "./pages/Login";
+import OTPVerification from "./pages/OTPVerification";
 import ProfileSetup from "./pages/ProfileSetup";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
@@ -33,8 +35,9 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Welcome />} />
+            <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/otp-verification" element={<OTPVerification />} />
             <Route path="/profile-setup" element={<ProfileSetup />} />
             <Route path="/voice-assistant" element={<VoiceAssistant />} />
             

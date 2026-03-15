@@ -10,14 +10,45 @@ const Login = () => {
   const { setIsGuest, language } = useApp();
   const [loginMethod, setLoginMethod] = useState<"phone" | "email">("phone");
   const [inputValue, setInputValue] = useState("");
+  const [error, setError] = useState("");
 
   const t = translations[language].login;
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
+    setError("");
+
     if (!inputValue.trim()) return;
-    setIsGuest(false);
-    navigate("/profile-setup");
+
+    if (loginMethod === "phone") {
+      const phoneRegex = /^\d{10}$/;
+      if (!phoneRegex.test(inputValue)) {
+        setError("Please enter a valid 10-digit mobile number");
+        return;
+      }
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(inputValue)) {
+        setError("Please enter a valid email address");
+        return;
+      }
+    }
+
+    const generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
+    
+    localStorage.setItem(
+      "otpData",
+      JSON.stringify({
+        value: inputValue,
+        method: loginMethod,
+        otp: generatedOTP,
+        expiry: Date.now() + 2 * 60 * 1000
+      })
+    );
+
+    console.log("Demo OTP:", generatedOTP);
+
+    navigate("/otp-verification", { state: { input: inputValue, method: loginMethod } });
   };
 
   const handleGuest = () => {
@@ -50,7 +81,11 @@ const Login = () => {
           {/* Toggle */}
           <div className="flex rounded-lg bg-muted p-1 mb-6">
             <button
-              onClick={() => setLoginMethod("phone")}
+              onClick={() => {
+                setLoginMethod("phone");
+                setInputValue("");
+                setError("");
+              }}
               className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-md text-sm font-medium transition-all
                 ${loginMethod === "phone" ? "bg-card shadow-sm text-foreground" : "text-muted-foreground"}`}
             >
@@ -58,7 +93,11 @@ const Login = () => {
               {t.mobile}
             </button>
             <button
-              onClick={() => setLoginMethod("email")}
+              onClick={() => {
+                setLoginMethod("email");
+                setInputValue("");
+                setError("");
+              }}
               className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-md text-sm font-medium transition-all
                 ${loginMethod === "email" ? "bg-card shadow-sm text-foreground" : "text-muted-foreground"}`}
             >
@@ -81,13 +120,22 @@ const Login = () => {
                 <input
                   type={loginMethod === "phone" ? "tel" : "email"}
                   value={inputValue}
-                  onChange={(e) => setInputValue(e.target.value)}
+                  onChange={(e) => {
+                    let value = e.target.value;
+                    if (loginMethod === "phone") {
+                      // Upgrade 2: Restrict to digits only and max 10 chars
+                      value = value.replace(/\D/g, "").slice(0, 10);
+                    }
+                    setInputValue(value);
+                    if (error) setError("");
+                  }}
                   placeholder={loginMethod === "phone" ? t.enterMobile : t.enterEmail}
                   required
-                  className={`w-full bg-background border border-input rounded-lg py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all
+                  className={`w-full bg-background border ${error ? 'border-red-500' : 'border-input'} rounded-lg py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-all
                     ${loginMethod === "phone" ? "pl-12 pr-4" : "px-4"}`}
                 />
               </div>
+              {error && <p className="text-red-500 text-xs mt-1.5">{error}</p>}
             </div>
 
             <button

@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useApp, UserProfile } from "@/contexts/AppContext";
 import { ArrowLeft, ArrowRight, Shield, CheckCircle2 } from "lucide-react";
-import { indianStates } from "@/data/mockData";
+import { indianStates, stateDistricts } from "@/data/mockData";
 import { translations } from "@/data/translations";
 
 const ProfileSetup = () => {
@@ -59,7 +59,7 @@ const ProfileSetup = () => {
     navigate("/dashboard");
   };
 
-  const isStep1Valid = form.name && form.age && form.gender && form.state;
+  const isStep1Valid = form.name && form.age && form.gender && form.state && form.district;
   const isStep2Valid = form.occupation && form.annualIncome;
 
   return (
@@ -143,7 +143,10 @@ const ProfileSetup = () => {
               <label className="block text-sm font-medium text-foreground mb-1.5">{t.state} *</label>
               <select
                 value={form.state}
-                onChange={(e) => updateField("state", e.target.value)}
+                onChange={(e) => {
+                  updateField("state", e.target.value);
+                  updateField("district", "");
+                }}
                 className="w-full bg-card border border-input rounded-lg px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring appearance-none"
               >
                 <option value="">{t.selectState}</option>
@@ -155,14 +158,18 @@ const ProfileSetup = () => {
 
             {/* District */}
             <div>
-              <label className="block text-sm font-medium text-foreground mb-1.5">{t.district}</label>
-              <input
-                type="text"
+              <label className="block text-sm font-medium text-foreground mb-1.5">{t.district} *</label>
+              <select
                 value={form.district}
                 onChange={(e) => updateField("district", e.target.value)}
-                placeholder={t.enterDistrict}
-                className="w-full bg-card border border-input rounded-lg px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring"
-              />
+                disabled={!form.state}
+                className="w-full bg-card border border-input rounded-lg px-4 py-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring appearance-none disabled:opacity-50"
+              >
+                <option value="">{language === "hi" ? "जिला चुनें" : "Select District"}</option>
+                {form.state && (stateDistricts[form.state] || []).map((d) => (
+                  <option key={d} value={d}>{d}</option>
+                ))}
+              </select>
             </div>
 
             <button

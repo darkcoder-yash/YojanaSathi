@@ -577,6 +577,43 @@ export const indianStates = [
   "Uttar Pradesh", "Uttarakhand", "West Bengal",
 ];
 
+export const stateDistricts: Record<string, string[]> = {
+  Rajasthan: [
+    "Ajmer", "Alwar", "Banswara", "Baran", "Barmer", "Bharatpur", "Bhilwara",
+    "Bikaner", "Bundi", "Chittorgarh", "Churu", "Dausa", "Dholpur", "Dungarpur",
+    "Hanumangarh", "Jaipur", "Jaisalmer", "Jalore", "Jhalawar", "Jhunjhunu",
+    "Jodhpur", "Karauli", "Kota", "Nagaur", "Pali", "Pratapgarh", "Rajsamand",
+    "Sawai Madhopur", "Sikar", "Sirohi", "Sri Ganganagar", "Tonk", "Udaipur"
+  ],
+  "Uttar Pradesh": ["Agra", "Aligarh", "Lucknow", "Kanpur", "Varanasi", "Prayagraj", "Meerut", "Ghaziabad"],
+  Maharashtra: ["Mumbai", "Pune", "Nagpur", "Nashik", "Aurangabad", "Thane", "Solapur"],
+  Bihar: ["Patna", "Gaya", "Bhagalpur", "Muzaffarpur", "Purnia", "Darbhanga"],
+  Gujarat: ["Ahmedabad", "Surat", "Vadodara", "Rajkot", "Bhavnagar", "Jamnagar"],
+  Karnataka: ["Bengaluru", "Mysuru", "Hubballi-Dharwad", "Mangaluru", "Belagavi"],
+  "Tamil Nadu": ["Chennai", "Coimbatore", "Madurai", "Tiruchirappalli", "Salem"],
+  "West Bengal": ["Kolkata", "Howrah", "Asansol", "Siliguri", "Durgapur"],
+  "Madhya Pradesh": ["Indore", "Bhopal", "Jabalpur", "Gwalior", "Ujjain"],
+  "Andhra Pradesh": ["Visakhapatnam", "Vijayawada", "Guntur", "Nellore", "Kurnool"],
+  Telangana: ["Hyderabad", "Warangal", "Nizamabad", "Khammam", "Karimnagar"],
+  Kerala: ["Thiruvananthapuram", "Kochi", "Kozhikode", "Thrissur", "Kollam"],
+  Punjab: ["Ludhiana", "Amritsar", "Jalandhar", "Patiala", "Bathinda"],
+  Haryana: ["Faridabad", "Gurugram", "Panipat", "Ambala", "Yamunanagar"],
+  Assam: ["Guwahati", "Dibrugarh", "Silchar", "Jorhat", "Nagaon"],
+  Jharkhand: ["Ranchi", "Jamshedpur", "Dhanbad", "Bokaro", "Deoghar"],
+  Odisha: ["Bhubaneswar", "Cuttack", "Rourkela", "Berhampur", "Sambalpur"],
+  Chhattisgarh: ["Raipur", "Bhilai", "Bilaspur", "Korba", "Rajnandgaon"],
+  Uttarakhand: ["Dehradun", "Haridwar", "Roorkee", "Haldwani", "Kashipur"],
+  "Himachal Pradesh": ["Shimla", "Dharamshala", "Solan", "Mandi", "Nahan"],
+  Goa: ["North Goa", "South Goa"],
+  "Arunachal Pradesh": ["Itanagar", "Tawang", "Ziro", "Pasighat"],
+  Manipur: ["Imphal", "Thoubal", "Bishnupur"],
+  Meghalaya: ["Shillong", "Tura", "Jowai"],
+  Mizoram: ["Aizawl", "Lunglei", "Saiha"],
+  Nagaland: ["Kohima", "Dimapur", "Mokokchung"],
+  Sikkim: ["Gangtok", "Namchi", "Geyzing"],
+  Tripura: ["Agartala", "Udaipur", "Dharmanagar"],
+};
+
 export const mockChatResponses: Record<string, string> = {
   farmer: "Based on your profile, here are the top schemes for farmers:\n\n🌾 **PM Kisan Samman Nidhi** - Get ₹6,000/year directly in your bank account.\n\n🛡️ **PM Fasal Bima Yojana** - Protect your crops with affordable insurance.\n\n💳 **Kisan Credit Card** - Access low-interest credit for farming needs.\n\nWould you like details on how to apply for any of these?",
   student: "Great news for students! Here are schemes you may be eligible for:\n\n📚 **National Scholarship Portal** - Apply for scholarships up to ₹50,000/year.\n\n🎓 **PM Vidya Lakshmi Yojana** - Get education loans from multiple banks.\n\nShall I help you understand the eligibility criteria?",
