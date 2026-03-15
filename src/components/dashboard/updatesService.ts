@@ -7,7 +7,7 @@ export interface GovernmentUpdate {
 
 export async function getGovernmentUpdates(): Promise<GovernmentUpdate[]> {
   try {
-    const response = await fetch("http://localhost:5000/api/government-updates", {
+    const response = await fetch("https://yojanasathi-pfgx.onrender.com/api/government-updates", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
