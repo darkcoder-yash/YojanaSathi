@@ -34,21 +34,17 @@ const Login = () => {
       }
     }
 
-    const generatedOTP = Math.floor(100000 + Math.random() * 900000).toString();
-    
+    // Store user login info
     localStorage.setItem(
-      "otpData",
+      "loginData",
       JSON.stringify({
         value: inputValue,
         method: loginMethod,
-        otp: generatedOTP,
-        expiry: Date.now() + 2 * 60 * 1000
       })
     );
 
-    console.log("Demo OTP:", generatedOTP);
-
-    navigate("/otp-verification", { state: { input: inputValue, method: loginMethod } });
+    // Navigate directly to profile setup
+    navigate("/profile-setup");
   };
 
   const handleGuest = () => {
