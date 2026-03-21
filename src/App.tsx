@@ -7,7 +7,6 @@ import { AppProvider } from "@/contexts/AppContext";
 import Landing from "./pages/Landing";
 import Welcome from "./pages/Welcome";
 import Login from "./pages/Login";
-import OTPVerification from "./pages/OTPVerification";
 import ProfileSetup from "./pages/ProfileSetup";
 import DashboardLayout from "./components/dashboard/DashboardLayout";
 import Dashboard from "./pages/Dashboard";
