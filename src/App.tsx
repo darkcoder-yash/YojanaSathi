@@ -36,7 +36,6 @@ const App = () => (
           <Routes>
             <Route path="/" element={<Landing />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/otp-verification" element={<OTPVerification />} />
             <Route path="/profile-setup" element={<ProfileSetup />} />
             <Route path="/voice-assistant" element={<VoiceAssistant />} />
             
